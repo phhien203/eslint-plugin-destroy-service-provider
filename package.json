@@ -1,0 +1,68 @@
+{
+  "name": "eslint-plugin-destroy-service-provider",
+  "version": "1.0.0",
+  "description": "Custom Angular eslint rule to prevent usage of DestroyService without providing it in Component/Directive providers",
+  "main": "lib/index.js",
+  "scripts": {
+    "start-tutorial": "rimraf \"src/rules/**/*\" && rimraf src/index.ts && npm un @typescript-eslint/parser",
+    "clean": "rimraf lib",
+    "prebuild": "rimraf node_modules/@types/eslint/node_modules/@types/estree",
+    "build": "tsc",
+    "prettier": "prettier \"*.{js,json,yml,yaml,md}\" \"src/**/*\" \"guide/**/*\"",
+    "format": "npm run prettier --write",
+    "format:check": "npm run prettier --check",
+    "test": "jest",
+    "prepublish": "npm run clean && npm run build"
+  },
+  "files": [
+    "LICENSE",
+    "README.md",
+    "package.json",
+    "lib"
+  ],
+  "keywords": [
+    "eslint",
+    "typescript",
+    "destroy service"
+  ],
+  "author": "Hien Pham",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/eslint": "^8.4.2",
+    "@types/estree": "^0.0.51",
+    "@types/node": "^17.0.35",
+    "@typescript-eslint/parser": "^5.26.0",
+    "eslint": "^8.16.0",
+    "husky": "^8.0.1",
+    "jest": "^28.1.0",
+    "prettier": "^2.6.2",
+    "pretty-quick": "^3.1.3",
+    "rimraf": "^3.0.2",
+    "ts-jest": "^28.0.3",
+    "typescript": "^4.7.2"
+  },
+  "peerDependencies": {
+    "eslint": "^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0"
+  },
+  "jest": {
+    "globals": {
+      "ts-jest": {
+        "diagnostics": false
+      }
+    },
+    "transform": {
+      "^.+\\.ts$": "ts-jest"
+    },
+    "testRegex": "(src/.*\\.test)\\.ts$",
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "\\.d\\.ts$",
+      "lib/.*"
+    ],
+    "moduleFileExtensions": [
+      "js",
+      "ts",
+      "json"
+    ]
+  }
+}
