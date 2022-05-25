@@ -1,15 +1,71 @@
-import { RuleTester } from "eslint";
+import rule, {
+  MessageIds,
+  RULE_NAME,
+} from './destroy-service-provider';
+import { RuleTester } from 'eslint';
 
-import rule from "./destroy-service-provider";
+const ruleTester = new RuleTester({
+  parser: require.resolve('@typescript-eslint/parser'),
+});
 
-const tester = new RuleTester({ parserOptions: { ecmaVersion: 2015 } });
+const validClasses = [
+  `@Component({
+    selector: 'my-orgs',
+    templateUrl: './welcome.component.html',
+    styleUrls: ['./welcome.component.scss'],
+    providers: [DestroyService]
+  })
+  export class WelcomeComponent implements OnInit {
+    constructor(
+      private destroy$: DestroyService,
+    ) {}
+  }`,
+  `@Directive({
+    selector: 'my-directive',
+    providers: [DestroyService]
+  })
+  export class MyDirective implements OnInit {
+    constructor(
+      private destroy$: DestroyService,
+    ) {}
+  }`,
+];
 
-tester.run("destroy-service-provider", rule, {
-  valid: [{ code: `let x` }],
+const invalidClasses = [
+  `@Component({
+    selector: 'my-orgs',
+    templateUrl: './welcome.component.html',
+    styleUrls: ['./welcome.component.scss'],
+    providers: []
+  })
+  export class WelcomeComponent implements OnInit {
+    constructor(
+      private destroy$: DestroyService,
+    ) {}
+  }`,
+  `@Directive({
+    selector: 'my-directive',
+  })
+  export class MyDirective implements OnInit {
+    constructor(
+      private destroy$: DestroyService,
+    ) {}
+  }`,
+];
+
+const messageId: MessageIds = 'destroyServiceProvider';
+
+// @ts-ignore
+ruleTester.run(RULE_NAME, rule, {
+  valid: validClasses,
   invalid: [
     {
-      code: `const x = 1;`,
-      errors: [{ message: "haha" }],
+      code: invalidClasses[0],
+      errors: [{ messageId }],
+    },
+    {
+      code: invalidClasses[1],
+      errors: [{ messageId }],
     },
   ],
 });

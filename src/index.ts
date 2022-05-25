@@ -1,7 +1,9 @@
-import destroyServiceProvider from "./rules/destroy-service-provider";
+const requireIndex = require("requireindex");
+const obj = requireIndex(__dirname + "/rules");
+const rules = {};
+Object.keys(obj).forEach((ruleName) => {
+  // @ts-ignore
+  return (rules[ruleName] = obj[ruleName].default);
+});
 
-export = {
-  rules: {
-    "destroy-service-provider": destroyServiceProvider,
-  },
-};
+module.exports = { rules };
